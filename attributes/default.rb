@@ -6,6 +6,11 @@ when 'redhat', 'centos', 'fedora', 'scientific', 'amazon'
   default['mariadb']['mysqld']['socket'] = '/var/lib/mysql/mysql.sock'
   default['mariadb']['client']['socket'] = '/var/lib/mysql/mysql.sock'
   default['mariadb']['mysqld_safe']['socket'] = '/var/lib/mysql/mysql.sock'
+when 'opensuse', 'opensuseleap'
+  default['mariadb']['configuration']['path'] = '/etc/mysql'
+  default['mariadb']['configuration']['includedir'] = '/etc/mysql/conf.d'
+  default['mariadb']['mysqld']['socket'] = '/var/run/mysql/mysqld.sock'
+  default['mariadb']['mysqld']['pid_file'] = '/var/run/mysql/mysqld.pid'
 else
   default['mariadb']['configuration']['path'] = '/etc/mysql'
   default['mariadb']['configuration']['includedir'] = '/etc/mysql/conf.d'
@@ -29,8 +34,9 @@ default['mariadb']['allow_root_pass_change']            = false
 default['mariadb']['mysqld']['service_name'] = if node['platform'] == 'centos'
                                                  'mariadb'
                                                else
-                                                 'mysql'
+                                                 'mysqlwtf'
                                                end
+
 default['mariadb']['mysqld']['user']                    = 'mysql'
 default['mariadb']['mysqld']['port']                    = '3306'
 default['mariadb']['mysqld']['basedir']                 = '/usr'

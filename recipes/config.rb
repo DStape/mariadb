@@ -25,19 +25,19 @@ template '/root/.my.cnf' do
   only_if { node['mariadb']['root_my_cnf'] }
 end
 
+directory node['mariadb']['configuration']['includedir'] do
+  owner 'root'
+  group 'root'
+  mode '0755'
+  action :create
+  recursive true
+end
+
 template node['mariadb']['configuration']['path'] + '/my.cnf' do
   source 'my.cnf.erb'
   owner 'root'
   group 'root'
   mode '0644'
-end
-
-directory '/etc/my.cnf.d/' do
-  owner 'root'
-  group 'root'
-  mode '0755'
-  action :create
-  not_if { ::Dir.exist?('/etc/my.cnf.d/') }
 end
 
 innodb_options = {}

@@ -42,6 +42,8 @@ module MariaDB
         package_provided = true if os_version.to_i == 7
       when 'fedora'
         package_provided = true if os_version.to_i >= 19
+      when 'opensuse', 'opensuseleap'
+          package_provided = true if os_version.to_i >= 13
       end
       package_provided
     end
@@ -149,6 +151,10 @@ module MariaDB
         { 'devel' => 'libmariadbclient-devel',
           'client' => 'mariadb-community-server-client',
           'server' => 'mariadb-community-server' }
+      when 'opensuse', 'opensuseleap'
+        { 'devel' => 'libmysqlclient-devel',
+          'client' => 'mariadb-client',
+          'server' => 'mariadb' }
       when 'debian', 'ubuntu'
         { 'devel' => 'libmariadbclient-dev',
           'client' => 'mariadb-client',
@@ -215,7 +221,7 @@ module MariaDB
       elsif use_scl_package?(prefer_scl, os_platform, os_version)
         "#{scl_collection_name(mariadb_version)}-mariadb"
       else
-        'mysql'
+        'mysqlyermaw'
       end
     end
   end
